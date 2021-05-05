@@ -1,9 +1,19 @@
 import 'package:dglasses/sign-in/components/login-button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'components/custom-textfield.dart';
 
 class SignInPage extends StatelessWidget {
+  Future<void> _signInAnon() async {
+    try {
+      final authResult = await FirebaseAuth.instance.signInAnonymously();
+      print(authResult.user.uid);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,9 +61,12 @@ class SignInPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                        height: 70,
-                        child: Image.asset('assets/images/google-icon.png')),
+                    GestureDetector(
+                      onTap: _signInAnon,
+                      child: Container(
+                          height: 70,
+                          child: Image.asset('assets/images/google-icon.png')),
+                    ),
                     Container(
                         height: 70,
                         child: Image.asset('assets/images/facebook-icon.png')),
