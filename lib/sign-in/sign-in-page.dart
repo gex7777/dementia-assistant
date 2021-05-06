@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'components/custom-textfield.dart';
 
 class SignInPage extends StatelessWidget {
+  SignInPage({@required this.onSignIn});
+  final Function(User) onSignIn;
   Future<void> _signInAnon() async {
     try {
-      final authResult = await FirebaseAuth.instance.signInAnonymously();
-      print(authResult.user.uid);
+      final user = await FirebaseAuth.instance.signInAnonymously();
+      onSignIn(user.user);
     } catch (e) {
       print(e.toString());
     }
